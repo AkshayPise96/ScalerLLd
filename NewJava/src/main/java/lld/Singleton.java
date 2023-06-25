@@ -8,9 +8,16 @@ public class Singleton {
     private Singleton() {}
 
     //public getter
-    public static synchronized Singleton getSingleton() {
+    public static Singleton getSingleton() {
+
         if(singletonObj == null) {
-            singletonObj = new Singleton();
+            //thread 1 , thread 2
+            synchronized (Singleton.class) {
+                // thread 1
+                if (singletonObj == null) {
+                    singletonObj = new Singleton();
+                }
+            }
         }
         return singletonObj;
     }
